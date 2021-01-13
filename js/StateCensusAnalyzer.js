@@ -31,13 +31,24 @@ class CensusAnalyzer {
                 /* check file extension */
                 let ext = path.extname(filename);
                 if (ext == '.csv') {
-                    fs.createReadStream(filename).pipe(csv())
-                        .on('data', (data) => {
-                            csvData.push(data);
-                        })
-                        .on('end', () => {
-                            resolve(csvData)
-                        })
+                    const content = fs.readFileSync(filename, { encoding: 'utf-8' })
+                    if (content.includes(',')) {
+                        fs.createReadStream(filename).pipe(csv())
+                            .on('headers', (Header) => {
+                                if (Header[0] != 'State' || Header[1] != 'Population' ||
+                                    Header[2] != 'AreaInSqKm' || Header[3] != 'DensityPerSqKm') {
+                                    reject(new Error('Invalid Headers'));
+                                }
+                            })
+                            .on('data', (data) => {
+                                csvData.push(data);
+                            })
+                            .on('end', () => {
+                                resolve(csvData)
+                            })
+                    } else {
+                        reject(new Error('Invalid Delimiter Arised'));
+                    }
                 } else {
                     reject(new Error('Extension Incorrect'));
                 }
