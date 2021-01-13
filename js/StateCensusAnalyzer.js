@@ -69,3 +69,10 @@ class CensusAnalyzer {
     }
 }
 module.exports = new CensusAnalyzer;
+let sca = new CensusAnalyzer();
+const FILE_PATH = '../resource/StateCode.csv';
+sca.stateCensusFileLoader(FILE_PATH).then((data) => {
+    console.log(data)
+}).catch((err) => {
+    console.log(err.message);
+})

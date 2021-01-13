@@ -10,6 +10,8 @@ const WRONG_EXTTENSION_FILE = './resource/StateData.json';
 const WRONG_DELIMETER_FILE = './resource/Data.csv';
 const EMPTY_FILE = './resource/emptyfile.csv';
 const assert = require('chai').assert;
+const customException = require('../js/Exceptions');
+
 
 describe("#TestForReadingCsv", () => {
     before(() => {
@@ -41,19 +43,19 @@ describe("#TestForReadingCsv", () => {
 
 describe("#TestcaseforWrongCsv", () => {
     it("givenStateCensusCsvFile_whenWrong_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(WRONG_FILE).catch(error => assert.equal(error.message, 'No Such File'));
+        CensusAnalyzer.stateCensusFileLoader(WRONG_FILE).catch(error => assert.equal(error.message,customException.exceptions.noFile));
     })
 
     it("givenStateCensusCsvFile_whenWrongExtension_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(WRONG_EXTTENSION_FILE).catch(error => assert.equal(error.message, 'Extension Incorrect'));
+        CensusAnalyzer.stateCensusFileLoader(WRONG_EXTTENSION_FILE).catch(error => assert.equal(error.message, customException.exceptions.extension));
     })
 
     it("givenStateCensusCsvFile_whenhavingWrongDelimeter_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(WRONG_DELIMETER_FILE).catch(error => assert.equal(error.message, 'Invalid Delimiter Arised'));
+        CensusAnalyzer.stateCensusFileLoader(WRONG_DELIMETER_FILE).catch(error => assert.equal(error.message, customException.exceptions.delimiter));
     })
 
     it("givenStateCensusCsvFile_whenEmpty_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(EMPTY_FILE).catch(error => assert.equal(error.message, 'File is empty'));
+        CensusAnalyzer.stateCensusFileLoader(EMPTY_FILE).catch(error => assert.equal(error.message,customException.exceptions.emptyFile));
     })
 
     it('givenStateCodeCsv_whenParse_shouldMatchCount', () => {
