@@ -14,7 +14,6 @@
 */
 const csv = require('csv-parser');
 const fs = require('fs');
-const path = require('path');
 
 /**
  * @description Class CensusAnalyzer
@@ -23,17 +22,22 @@ const path = require('path');
 
 class CensusAnalyzer {
     /* read csv data from csv file and store in array */
-    stateCensusFileLoader(filename) {
+stateCensusFileLoader(filename) {
         var csvData = [];
-        fs.createReadStream(filename).pipe(csv())
-            .on('data', (data) => {
-                csvData.push(data);
-            })
-            .on('end', () => {
-                console.log(csvData);
-            })
+        return new Promise(function (resolve, reject) {
+            fs.createReadStream(filename).pipe(csv())
+                .on('data', (data) => {
+                    csvData.push(data);
+                })
+                .on('end', () => {
+                    resolve(csvData)
+                })
+        })
     }
 }
-
-let censusAnalyzer = new CensusAnalyzer();
-censusAnalyzer.stateCensusFileLoader('../resource/StateCensusData.csv');
+module.exports = new CensusAnalyzer;
+// let sca=new CensusAnalyzer();
+// const FILE_PATH = '../resource/StateCensusData.csv';
+// sca.stateCensusFileLoader(FILE_PATH).then((data) => {
+//     console.log(data)
+// })
