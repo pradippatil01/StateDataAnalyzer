@@ -56,13 +56,13 @@ class CensusAnalyzer {
                 }
             } catch (err) {
                 if (err instanceof ReferenceError) {
-                    reject(err.message + " " + err.name);
+                    reject(new Error(err));
                 }
                 else if (err instanceof SyntaxError) {
-                    reject(err.message + " " + err.name)
+                    reject(new Error(err));
                 }
                 else {
-                    reject(err.message)
+                    reject(new Error(err));
                 }
             }
         })
