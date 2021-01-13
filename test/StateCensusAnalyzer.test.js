@@ -3,12 +3,11 @@
 */
 const CensusAnalyzer = require('../js/StateCensusAnalyzer');
 const FILE_PATH = './resource/StateCensusData.csv';
-const STATECODE_FILE_PATH = './resource/StateCode.csv';
+const STATE_CODE_FILE = './resource/StateCode.csv';
 const WRONG_FILE = './resource/StateCensusDataN.csv';
 const WRONG_EXTTENSION_FILE = './resource/StateData.json';
 const WRONG_DELIMETER_FILE = './resource/Data.csv';
-
-
+const EMPTY_FILE = './resource/emptyfile.csv';
 const assert = require('chai').assert;
 
 describe("#TestForReadingCsv", () => {
@@ -46,9 +45,13 @@ describe("#TestcaseforWrongCsv", () => {
     it("givenStateCensusCsvFile_whenhavingWrongDelimeter_shouldthrowexception", () => {
         CensusAnalyzer.stateCensusFileLoader(WRONG_DELIMETER_FILE).catch(error => assert.equal(error.message, 'Invalid Delimiter Arised'));
     })
-    
-    it('This TestCase Pases when Returned Exception is Invalid Headers', () => {
-        CensusAnalyzer.stateCensusFileLoader(STATECODE_FILE_PATH).catch(error => assert.equal(error.message, 'Invalid Headers'));
+
+    it("givenStateCensusCsvFile_whenEmpty_shouldthrowexception", () => {
+        CensusAnalyzer.stateCensusFileLoader(EMPTY_FILE).catch(error => assert.equal(error.message, 'File is empty'));
+    })
+
+    it('givenStateCodeCsv_whenParse_shouldMatchCount', () => {
+        CensusAnalyzer.stateCensusFileLoader(STATE_CODE_FILE).then(result => assert.lengthOf(result, 37));
     })
 })
 
