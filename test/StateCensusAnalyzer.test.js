@@ -12,23 +12,28 @@ const EMPTY_FILE = './resource/emptyfile.csv';
 const assert = require('chai').assert;
 
 describe("#TestForReadingCsv", () => {
+    before(() => {
+        this.result = new Promise((resolve) => {
+           data = CensusAnalyzer.stateCensusFileLoader(FILE_PATH).then((data) => {
+               resolve(data)
+           })
+       })
+   })
+
     it("givenStateCensusCsvFile_whenParse_shouldmatchCount", () => {
-        let result = CensusAnalyzer.stateCensusFileLoader(FILE_PATH);
-        result.then((data) => {
+        this.result.then((data) => {
             assert.lengthOf(data, 29);
         })
     })
 
     it("givenStateCensusCsv_whenCountIsAboveThanRealCount_ShouldNotEqualCheck", () => {
-        let result = CensusAnalyzer.stateCensusFileLoader(FILE_PATH);
-        result.then((data) => {
+        this.result.then((data) => {
             assert.notEqual(data.length, 30);
         })
     })
 
     it("givenStateCensusCsv_whenCountIsBelowThanRealCount_ShouldNotEqualCheck", () => {
-        let result = CensusAnalyzer.stateCensusFileLoader(FILE_PATH);
-        result.then((data) => {
+        this.result.then((data) => {
             assert.notEqual(data.length, 28);
         })
     })
