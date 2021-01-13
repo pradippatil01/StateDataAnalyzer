@@ -14,6 +14,7 @@
 */
 const csv = require('csv-parser');
 const fs = require('fs');
+const { threadId } = require('worker_threads');
 
 /**
  * @description Class CensusAnalyzer
@@ -22,22 +23,22 @@ const fs = require('fs');
 
 class CensusAnalyzer {
     /* read csv data from csv file and store in array */
-stateCensusFileLoader(filename) {
+    stateCensusFileLoader(filename) {
         var csvData = [];
         return new Promise(function (resolve, reject) {
-            fs.createReadStream(filename).pipe(csv())
-                .on('data', (data) => {
-                    csvData.push(data);
-                })
-                .on('end', () => {
-                    resolve(csvData)
-                })
+            /* check file present or not on path*/
+            if (fs.existsSync(filename)) {
+                fs.createReadStream(filename).pipe(csv())
+                    .on('data', (data) => {
+                        csvData.push(data);
+                    })
+                    .on('end', () => {
+                        resolve(csvData)
+                    })
+            } else {
+                reject(new Error('No Such File'));
+            }
         })
     }
 }
 module.exports = new CensusAnalyzer;
-// let sca=new CensusAnalyzer();
-// const FILE_PATH = '../resource/StateCensusData.csv';
-// sca.stateCensusFileLoader(FILE_PATH).then((data) => {
-//     console.log(data)
-// })

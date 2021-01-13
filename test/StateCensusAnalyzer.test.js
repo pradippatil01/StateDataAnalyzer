@@ -3,6 +3,8 @@
 */
 const CensusAnalyzer = require('../js/StateCensusAnalyzer');
 const FILE_PATH = './resource/StateCensusData.csv';
+const WRONG_FILE = './resource/StateCensusDataN.csv';    
+
 const assert = require('chai').assert;
 
 describe("#TestForReadingCsv", () => {
@@ -27,3 +29,13 @@ describe("#TestForReadingCsv", () => {
         })
     })
 })
+
+describe("#TestcaseforWrongCsv", () => {
+    it("givenStateCensusCsvFile_whenWrong_shouldthrowexception", () => {
+        CensusAnalyzer.stateCensusFileLoader(WRONG_FILE).catch(error => assert.equal(error.message, 'No Such File'));
+    })
+})
+
+
+
+
