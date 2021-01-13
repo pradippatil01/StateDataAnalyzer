@@ -2,6 +2,7 @@
 * @description     :  Testing file where test cases implemented for validation purpose
 */
 const CensusAnalyzer = require('../js/StateCensusAnalyzer');
+const sorting = require('../js/SortData');
 const FILE_PATH = './resource/StateCensusData.csv';
 const STATE_CODE_FILE = './resource/StateCode.csv';
 const WRONG_FILE = './resource/StateCensusDataN.csv';
@@ -52,6 +53,41 @@ describe("#TestcaseforWrongCsv", () => {
 
     it('givenStateCodeCsv_whenParse_shouldMatchCount', () => {
         CensusAnalyzer.stateCensusFileLoader(STATE_CODE_FILE).then(result => assert.lengthOf(result, 37));
+    })
+})
+
+/* test cases for sort data */
+describe('#testsForSortData', () => {
+    it('givenStateCensusCsvFile_WhenSortDataAsPerAreaInSqKm_shouldMatchFirstElement', () => {
+        sorting.SortData(FILE_PATH, 'AreaInSqKm').then(sortedArray => {
+            assert.equal(sortedArray[0].State, 'Goa');
+        });
+    })
+    
+    it('givenCsvFile_WhenSortDataAsPerDensity_shouldMatchFirstElement', () => {
+        sorting.SortData(FILE_PATH, 'DensityPerSqKm').then(sortedArray => {
+            assert.equal(sortedArray[0].State, 'Mizoram');
+        });
+    })
+
+    it('givenCsvFile_WhenSortDataAsPerPopulation_shouldMatchFirstElement', () => {
+        sorting.SortData(FILE_PATH, 'Population').then(sortedArray => {
+            assert.equal(sortedArray[0].State, 'Sikkim');
+        });
+    })
+
+    it('givenCsvFile_WhenSortDataAsPerPerState_shouldMatchFirstElement', () => {
+        sorting.SortStateData(FILE_PATH, 'State').then(sortedArray => {
+            assert.equal(sortedArray[0].State, 'Andhra Pradesh')
+            assert.equal(sortedArray[28].State, 'West Bengal')
+        });
+    })
+
+    it('givenCsvFile_WhenSortDataAsPerPerStateCode_shouldMatchFirstElement', () => {
+        sorting.SortData(STATE_CODE_FILE, 'StateCode').then(sortedArray => {
+            assert.equal(sortedArray[0].State, 'JammuandKashmir');
+            assert.equal(sortedArray[36].State, 'Andhra Pradesh New')
+        });
     })
 })
 
