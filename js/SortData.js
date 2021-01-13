@@ -2,12 +2,9 @@
 /**
 * @description     :  Dependencies require to be installed before the execeution
 * @CensusAnalyzer  :  Import CensusAnalyzer class
-* @fs              :  js file system module allows you to work with the file system.
 */
 
-
 const CensusAnalyzer = require('../js/StateCensusAnalyzer');
-const fs = require('fs');
 
 /**
  * @description Class Sorting
