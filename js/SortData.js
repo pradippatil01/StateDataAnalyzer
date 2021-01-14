@@ -36,4 +36,3 @@ class Sorting {
 }
 
 module.exports = new Sorting;
-

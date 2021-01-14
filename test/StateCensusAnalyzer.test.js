@@ -12,30 +12,25 @@ const EMPTY_FILE = './resource/emptyfile.csv';
 const assert = require('chai').assert;
 const customException = require('../js/Exceptions');
 
-
 describe("#TestForReadingCsv", () => {
     before(() => {
-        this.result = new Promise((resolve) => {
-           data = CensusAnalyzer.stateCensusFileLoader(FILE_PATH).then((data) => {
-               resolve(data)
-           })
-       })
-   })
+        data = CensusAnalyzer.stateCensusFileLoader(FILE_PATH);
+    })
 
     it("givenStateCensusCsvFile_whenParse_shouldmatchCount", () => {
-        this.result.then((data) => {
-            assert.lengthOf(data, 29);
+       data.then((data) => {
+        assert.lengthOf(data, 29);
         })
     })
 
     it("givenStateCensusCsv_whenCountIsAboveThanRealCount_ShouldNotEqualCheck", () => {
-        this.result.then((data) => {
+        data.then((data) => {
             assert.notEqual(data.length, 30);
         })
     })
 
     it("givenStateCensusCsv_whenCountIsBelowThanRealCount_ShouldNotEqualCheck", () => {
-        this.result.then((data) => {
+        data.then((data) => {
             assert.notEqual(data.length, 28);
         })
     })
@@ -43,7 +38,7 @@ describe("#TestForReadingCsv", () => {
 
 describe("#TestcaseforWrongCsv", () => {
     it("givenStateCensusCsvFile_whenWrong_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(WRONG_FILE).catch(error => assert.equal(error.message,customException.exceptions.noFile));
+        CensusAnalyzer.stateCensusFileLoader(WRONG_FILE).catch(error => assert.equal(error.message, customException.exceptions.noFile));
     })
 
     it("givenStateCensusCsvFile_whenWrongExtension_shouldthrowexception", () => {
@@ -55,7 +50,7 @@ describe("#TestcaseforWrongCsv", () => {
     })
 
     it("givenStateCensusCsvFile_whenEmpty_shouldthrowexception", () => {
-        CensusAnalyzer.stateCensusFileLoader(EMPTY_FILE).catch(error => assert.equal(error.message,customException.exceptions.emptyFile));
+        CensusAnalyzer.stateCensusFileLoader(EMPTY_FILE).catch(error => assert.equal(error.message, customException.exceptions.emptyFile));
     })
 
     it('givenStateCodeCsv_whenParse_shouldMatchCount', () => {
@@ -70,7 +65,7 @@ describe('#testsForSortData', () => {
             assert.equal(sortedArray[0].State, 'Goa');
         });
     })
-    
+
     it('givenCsvFile_WhenSortDataAsPerDensity_shouldMatchFirstElement', () => {
         sorting.SortData(FILE_PATH, 'DensityPerSqKm').then(sortedArray => {
             assert.equal(sortedArray[0].State, 'Mizoram');
@@ -97,7 +92,3 @@ describe('#testsForSortData', () => {
         });
     })
 })
-
-
-
-
